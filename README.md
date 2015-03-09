@@ -1,2 +1,2 @@
-# pretwieters
+# PreTwieters
 Project TwieTwiets-Bot
