@@ -21,8 +21,8 @@ class createDictionary():
 				for i,c in enumerate(reversed(syl)):
 					lastPart.append(c)
 					if c == ':':
-						return (syl[len(syl) - (i + 2):] + ''.join(reversed(lastPart)), n)
-					if c.isupper():		
+						return (syl[len(syl) - (i + 2):] + ''.join(reversed(lastPart))[1:], n)
+					if c.isupper() and n == 0:		
 						return (syl[len(syl) - (i +1):], n)
 		return False										
 
