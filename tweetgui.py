@@ -15,6 +15,11 @@ class TweetGui(QtGui.QWidget):
 		self.initUI()
 
 	def initUI(self):
+		self.bg = QtGui.QFrame(self)
+		self.resolution = QtGui.QDesktopWidget().screenGeometry()
+		self.bg.resize(self.resolution.width(),self.resolution.height())
+		self.bg.setStyleSheet('background-image: url("background.jpg")')
+
 		self.grid = QtGui.QGridLayout()
 		self.grid.setSpacing(5)
 		self.tweetLabel = QtGui.QLabel()
@@ -34,9 +39,10 @@ class TweetGui(QtGui.QWidget):
 		self.grid.addWidget(self.twietwietButton, 2, 4)
 
 		self.setWindowIcon(QtGui.QIcon('icon.png'))
+		self.center()
 		self.setWindowTitle('TwieTwiet')
 		self.setGeometry(500, 200, 400, 400)
-		self.QMainWindow.setStyleSheet("background-image: url(background.jpg)")
+		#self.QMainWindow.setStyleSheet("background-image: url(background.jpg)")
 
 		self.setLayout(self.grid)
 		self.show()
@@ -48,6 +54,13 @@ class TweetGui(QtGui.QWidget):
 			self.tweetLabel.setText(random.choice(self.tweet1))
 		else:
 			self.twietwietLabel.setText(random.choice(self.tweet2))
+
+	def center(self):
+		""" Centers the window of the application on the screen."""
+		qr = self.frameGeometry()
+		cp = QtGui.QDesktopWidget().availableGeometry().center()
+		qr.moveCenter(cp)
+		self.move(qr.topLeft())
 
 
 if __name__ == '__main__':
