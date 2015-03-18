@@ -2,16 +2,14 @@
 
 import sys
 from PyQt4 import QtGui, QtCore
-#from createDictionary import *
+import twieTweets
 import random
 
 class TweetGui(QtGui.QWidget):
 	""" Docstring """
 
-	def __init__(self, tweet1, tweet2):
+	def __init__(self):
 		super(TweetGui, self).__init__()
-		self.tweet1 = tweet1
-		self.tweet2 = tweet2
 		self.initUI()
 
 	def initUI(self):
@@ -51,9 +49,9 @@ class TweetGui(QtGui.QWidget):
 		source = self.sender()
 
 		if source.text() == "Nieuwe tweet":
-			self.tweetLabel.setText(random.choice(self.tweet1))
+			self.tweetLabel.setText(tweets.inputTweet())
 		else:
-			self.twietwietLabel.setText(random.choice(self.tweet2))
+			self.twietwietLabel.setText(tweets.twieTweet(self.tweetLabel.text()))
 
 	def center(self):
 		""" Centers the window of the application on the screen."""
@@ -63,11 +61,9 @@ class TweetGui(QtGui.QWidget):
 		self.move(qr.topLeft())
 
 
-if __name__ == '__main__':
-	tweet1 = ['haha', 'hoofd', 'osdopjfklasdjf', 'dkjfa;lskdfjads;', 'dkfjakjdk']
-	tweet2 = ['kdjfkds', 'djkafjsd', 'kdsfajs;kdj', 'dsjfk;ajsd', 'djfkasdfjas;', 'djasfklasdjf']
-
+if __name__ == '__main__':	
+	tweets = twieTweets.twieTweets()
 	app = QtGui.QApplication(sys.argv)
-	t = TweetGui(tweet1, tweet2)
+	t = TweetGui()
 	t.show()
 	app.exec_()
