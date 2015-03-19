@@ -53,41 +53,30 @@ class twieTweets():
 
 	def inputTweet(self):
 		randomKey = random.choice(list(self.twieTweets.keys()))
+
+		#testen hoeveel tweets eindigen op hetzelfde woord 
 		while not len(self.twieTweets[randomKey]) > 2 :
 			randomKey = random.choice(list(self.twieTweets.keys()))
 		return random.choice(self.twieTweets[randomKey])
 	
-	def twieTweet(self, inputTweet):
-		lastWord = self.getLastWord(inputTweet)
-		if lastWord in self.pronDict:
-			key = tuple(self.pronDict[lastWord])
-			result = random.choice(self.twieTweets[key])
-			return result
-		else :
-			return False
+	def getTwieTweets(self):
+		# get random list of tweets that rhyme
+		result = defaultdict(list)
+		while len(list(result.values())) < 2:
+			result.clear()
+			randomList = self.twieTweets[random.choice(list(self.twieTweets.keys()))]			
+			for tweet in randomList:
+				if self.getLastWord(tweet) in self.pronDict:
+					result[self.getLastWord(tweet)] = tweet
+		return list(result.values())
+		
 
 	def twieTweetTest(self):
-		while 0 < 1:
-			randomKey = random.choice(list(self.twieTweets.keys()))
-			if len(self.twieTweets[randomKey]) > 3:
-				tweet1 = random.choice(self.twieTweets[randomKey])
-				tweet2 = random.choice(self.twieTweets[randomKey])
-				n = 0
-				while (self.getLastWord(tweet1) == self.getLastWord(tweet2)): #tweets moeten eindigen op verschillende woorden
-					tweet2 = random.choice(self.twieTweets[randomKey])
-					n += 1
-					if n == 10:
-						self.twieTweet()
-				print()
-				print(tweet1, self.syllablesList[self.getLastWord(tweet1)], randomKey)
-				print(tweet2, self.syllablesList[self.getLastWord(tweet2)], randomKey)
-				print()
-				inputUser = input('Press enter to continue, x to abort')
-				if inputUser == 'x':
-					break
-	
+		for tweet in self.getTwieTweets():
+			print(tweet)
+			
 
 if __name__ == '__main__':
 	twieTweets = twieTweets()
-	twieTweets.twieTweet()
+	twieTweets.twieTweetTest()
 
