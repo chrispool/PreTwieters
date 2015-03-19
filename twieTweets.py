@@ -52,6 +52,7 @@ class twieTweets():
 		return ''.join(tweet.split()[-1:])
 
 	def inputTweet(self):
+		randomKey = random.choice(list(self.twieTweets.keys()))
 		while not len(self.twieTweets[randomKey]) > 2 :
 			randomKey = random.choice(list(self.twieTweets.keys()))
 		return random.choice(self.twieTweets[randomKey])
