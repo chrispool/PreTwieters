@@ -46,12 +46,20 @@ class TweetGui(QtGui.QWidget):
 		self.show()
 
 	def buttonPushed(self):
-		source = self.sender()
-
+		source = self.sender() 
+		i = 0 #kan gebruikt worden om te loopen in mogelijke twietweets
 		if source.text() == "Nieuwe tweet":
-			self.tweetLabel.setText(tweets.inputTweet())
+			self.tweets = self.getTweets()
+			self.tweetLabel.setText(self.tweets[0])
+			self.twietwietLabel.setText(self.tweets[1][i])
 		else:
-			self.twietwietLabel.setText(tweets.twieTweet(self.tweetLabel.text()))
+			self.twietwietLabel.setText(self.tweets[1][i]) #laat nu alleen eerste zien maar in deze list zitten meer tweets die hier op rijmen
+
+	def getTweets(self):
+		tweets = twieTwiet.getTwieTweets() #returns a list of tweets
+		firstTweet = tweets.pop() #moet eigenlijk random gebeuren
+		result = [firstTweet, tweets]
+		return result
 
 	def center(self):
 		""" Centers the window of the application on the screen."""
@@ -62,7 +70,7 @@ class TweetGui(QtGui.QWidget):
 
 
 if __name__ == '__main__':	
-	tweets = twieTweets.twieTweets()
+	twieTwiet = twieTweets.twieTweets()
 	app = QtGui.QApplication(sys.argv)
 	t = TweetGui()
 	t.show()
