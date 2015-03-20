@@ -34,8 +34,8 @@ class TweetGui(QtGui.QWidget):
 		self.tweetButton.setFixedWidth(150)
 		self.twietwietButton.setFixedWidth(150)
 		
-		self.tweetshow.clicked.connect(self.buttonPushed)
-		self.twietwietshow.clicked.connect(self.buttonPushed)
+		self.tweetshow.clicked.connect(self.originalTweet)
+		self.twietwietshow.clicked.connect(self.originalTweet)
 		self.tweetButton.clicked.connect(self.buttonPushed)
 		self.twietwietButton.clicked.connect(self.buttonPushed)
 
@@ -53,7 +53,8 @@ class TweetGui(QtGui.QWidget):
 		self.show()
 
 	def originalTweet(self):
-		pass
+		source = self.sender()
+		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', "TEKST VAN TWEET", QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok) # werkt nog niet
 
 	def buttonPushed(self):
 		source = self.sender() 
