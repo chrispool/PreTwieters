@@ -20,40 +20,50 @@ class TweetGui(QtGui.QWidget):
 
 		self.grid = QtGui.QGridLayout()
 		self.grid.setSpacing(5)
-		self.tweetLabel = QtGui.QLabel()
-		self.twietwietLabel = QtGui.QLabel()
+		
+		self.tweetshow = QtGui.QPushButton('', self)
+		self.twietwietshow = QtGui.QPushButton('', self)
 		self.tweetButton = QtGui.QPushButton('Nieuwe tweet', self)
 		self.twietwietButton = QtGui.QPushButton('Nieuwe twietwiet', self)
 
+		self.tweetshow.setToolTip('Klik om originele tweet te zien')
+		self.twietwietshow.setToolTip('Klik om originele tweet te zien')
+		self.tweetshow.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
+		self.twietwietshow.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
+		
 		self.tweetButton.setFixedWidth(150)
 		self.twietwietButton.setFixedWidth(150)
-
+		
+		self.tweetshow.clicked.connect(self.buttonPushed)
+		self.twietwietshow.clicked.connect(self.buttonPushed)
 		self.tweetButton.clicked.connect(self.buttonPushed)
 		self.twietwietButton.clicked.connect(self.buttonPushed)
 
-		self.grid.addWidget(self.tweetLabel, 1, 0)
-		self.grid.addWidget(self.twietwietLabel, 2, 0)
+		self.grid.addWidget(self.tweetshow, 1, 0)
+		self.grid.addWidget(self.twietwietshow, 2, 0)
 		self.grid.addWidget(self.tweetButton, 1, 4)
 		self.grid.addWidget(self.twietwietButton, 2, 4)
 
 		self.setWindowIcon(QtGui.QIcon('icon.png'))
 		self.center()
 		self.setWindowTitle('TwieTwiet')
-		self.setGeometry(500, 200, 400, 400)
-		#self.QMainWindow.setStyleSheet("background-image: url(background.jpg)")
+		self.setGeometry(500, 200, 1000, 400)
 
 		self.setLayout(self.grid)
 		self.show()
+
+	def originalTweet(self):
+		pass
 
 	def buttonPushed(self):
 		source = self.sender() 
 		i = 0 #kan gebruikt worden om te loopen in mogelijke twietweets
 		if source.text() == "Nieuwe tweet":
 			self.tweets = self.getTweets()
-			self.tweetLabel.setText(self.tweets[0])
-			self.twietwietLabel.setText(self.tweets[1][i])
+			self.tweetshow.setText(self.tweets[0])
+			self.twietwietshow.setText(self.tweets[1][i])
 		else:
-			self.twietwietLabel.setText(self.tweets[1][i]) #laat nu alleen eerste zien maar in deze list zitten meer tweets die hier op rijmen
+			self.twietwietshow.setText(self.tweets[1][i]) #laat nu alleen eerste zien maar in deze list zitten meer tweets die hier op rijmen
 
 	def getTweets(self):
 		tweets = twieTwiet.getTwieTweets() #returns a list of tweets
