@@ -1,16 +1,16 @@
-O - Beginscherm met uitleg en startknop + namen
+O -  Beginscherm met uitleg en startknop + namen
 
-O - TwieTweet opslaan
+O -  TwieTweet opslaan
 
-O - Opmaak van tweets, breedte lettertype
+O -  Opmaak van tweets, breedte lettertype
 
-M - Meer informatie over tweet na het klikken op tweet, username en tweet meegeven
+M -  Meer informatie over tweet na het klikken op tweet, username en tweet meegeven
 
-- opgeslagen tweets tweeten
+-  opgeslagen tweets tweeten
 
-L - Verbeteren van laatste woord functie
+L -  Verbeteren van laatste woord functie
 
-C - backend geeft lijst met tweets met unieke laatste woorden > 3
+C -  backend geeft lijst met tweets met unieke laatste woorden > 3
 
-- Tweet plaatsen met mooie tweet
+-  Tweet plaatsen met mooie tweet
 

@@ -4,6 +4,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 import twieTweets
 import random
+import time
 
 class TweetGui(QtGui.QWidget):
 	""" Docstring """
@@ -25,24 +26,35 @@ class TweetGui(QtGui.QWidget):
 		self.twietwietshow = QtGui.QPushButton('', self)
 		self.tweetButton = QtGui.QPushButton('Nieuwe tweet', self)
 		self.twietwietButton = QtGui.QPushButton('Nieuwe twietwiet', self)
+		self.tweetSaveButton = QtGui.QPushButton('Bewaar', self)
+		self.tweetCopyButton = QtGui.QPushButton('Kopieer', self)
+		self.bestTweetList=QtGui.QListWidget()
+		self.clipBoard = QtGui.QApplication.clipboard()
 
 		self.tweetshow.setToolTip('Klik om originele tweet te zien')
 		self.twietwietshow.setToolTip('Klik om originele tweet te zien')
 		self.tweetshow.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
 		self.twietwietshow.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
+		self.bestTweetList.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
 		
 		self.tweetButton.setFixedWidth(150)
 		self.twietwietButton.setFixedWidth(150)
+		self.tweetSaveButton.setFixedWidth(150)
+		self.tweetCopyButton.setFixedWidth(150)
 		
 		self.tweetshow.clicked.connect(self.originalTweet)
 		self.twietwietshow.clicked.connect(self.originalTweet)
 		self.tweetButton.clicked.connect(self.buttonPushed)
 		self.twietwietButton.clicked.connect(self.buttonPushed)
+		self.tweetCopyButton.clicked.connect(self.copyTweet)
+		self.tweetSaveButton.clicked.connect(self.saveTweet)
 
 		self.grid.addWidget(self.tweetshow, 1, 0)
 		self.grid.addWidget(self.twietwietshow, 2, 0)
 		self.grid.addWidget(self.tweetButton, 1, 4)
 		self.grid.addWidget(self.twietwietButton, 2, 4)
+		self.grid.addWidget(self.tweetCopyButton, 5, 1)
+		self.grid.addWidget(self.tweetSaveButton, 5, 2)
 
 		self.setWindowIcon(QtGui.QIcon('icon.png'))
 		self.center()
@@ -79,10 +91,33 @@ class TweetGui(QtGui.QWidget):
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
 
+	def saveTweet(self):
+		filename = QtGui.QFileDialog.getSaveFileName(self, 'Save File')
+		f = open(filename, 'w')
+		for i in range(self.bestTweetList.count()):
+			f.write((''.join([str(self.bestTweetList.item(i).text()),'\n'])))
+		f.close()
+
+	def copyTweet(self):
+		self.bestTweet=[self.tweetshow.text() + '->' + self.twietwietshow.text()]
+		self.bestTweetList.addItems(self.bestTweet)
+		self.bestTweetList.setFixedSize(self.bestTweetList.sizeHintForColumn(0) + 2 * self.bestTweetList.frameWidth(), self.bestTweetList.sizeHintForRow(0) * self.bestTweetList.count() + 2 * self.bestTweetList.frameWidth())
+		self.grid.addWidget(self.bestTweetList, 6, 0)
+		self.clipBoard.setText(' '.join(self.bestTweet), mode=self.clipBoard.Clipboard)
+
+
+
 
 if __name__ == '__main__':	
-	twieTwiet = twieTweets.twieTweets()
+	
 	app = QtGui.QApplication(sys.argv)
+	splash_pix = QtGui.QPixmap('background_splash.jpg')
+	splash = QtGui.QSplashScreen(splash_pix)
+	splash.show()
+	# Tekstgrootte? en center !=center, verspringt bij laden.
+	splash.showMessage("Welkom in Pretweetweet, het programma om rijm mee op te sporen!",alignment = QtCore.Qt.AlignCenter)
+	twieTwiet = twieTweets.twieTweets()
 	t = TweetGui()
 	t.show()
+	splash.finish(t)
 	app.exec_()

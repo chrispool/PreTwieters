@@ -40,7 +40,7 @@ class twieTweets():
 		'''Maak een twieTweet dictionary op basis van laatste woord van tweet en bijbehorende klank. Resultaat is een 
 		dictionary met als key de klank (hoofdletter plus opvolgende letters) en als values tweets die dat hebben'''
 		self.twieTweets = defaultdict(list)
-		for line in open(self.tweetFile):
+		for line in open(self.tweetFile, encoding='utf-8'):
 			elements = line.split('\t')
 			lastWord = self.getLastWord(elements[1])
 			if lastWord in self.pronDict:
