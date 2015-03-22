@@ -49,7 +49,33 @@ class twieTweets():
 	
 	def getLastWord(self, tweet):
 		'''get last word of tweet (functie nog uitbreiden om hashtags etc te verwijderen via andere functie)'''
-		return ''.join(tweet.split()[-1:])
+		lastWord = ''.join(tweet).split()[-1]
+
+		i = -1
+		while True:
+			if len(lastWord) < 2:
+				i = i - 1
+				lastWord = ''.join(tweet).split()[i]
+			elif '#' in lastWord and (len(''.join(tweet).split()) + i)>=1:
+				i = i - 1
+				lastWord = ''.join(tweet).split()[i]
+			elif 'http' in lastWord and (len(''.join(tweet).split()) + i)>=1:
+				i = i - 1
+				lastWord = ''.join(tweet).split()[i]
+			elif lastWord[-1] in str(list(range(10))):
+				while lastWord[-1] in str(list(range(10))):
+					lastWord = lastWord[:-1]
+					if len(lastWord) < 2:
+						i = i - 1
+						lastWord = ''.join(tweet).split()[i]
+			elif lastWord[-1] in ['.','?','!',',',':',')','(','@']:
+				lastWord = lastWord[:-1]
+				if len(lastWord) < 2:
+					i = i - 1
+					lastWord = ''.join(tweet).split()[i]
+			else:
+				break
+		return lastWord
 
 	def inputTweet(self):
 		randomKey = random.choice(list(self.twieTweets.keys()))
