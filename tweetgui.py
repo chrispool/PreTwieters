@@ -70,13 +70,16 @@ class TweetGui(QtGui.QWidget):
 
 	def buttonPushed(self):
 		source = self.sender() 
-		i = 0 #kan gebruikt worden om te loopen in mogelijke twietweets
 		if source.text() == "Nieuwe tweet":
 			self.tweets = self.getTweets()
 			self.tweetshow.setText(self.tweets[0])
-			self.twietwietshow.setText(self.tweets[1][i])
+			self.twietwietshow.setText(self.tweets[1][0])
 		else:
-			self.twietwietshow.setText(self.tweets[1][i]) #laat nu alleen eerste zien maar in deze list zitten meer tweets die hier op rijmen
+			if len(self.tweets[1]) > 1:
+				self.twietwietshow.setText(self.tweets[1][1])
+				self.tweets[1].pop(0)
+			else:
+				self.twietwietshow.setText("Helaas, Twietwiets zijn op!")
 
 	def getTweets(self):
 		tweets = twieTwiet.getTwieTweets() #returns a list of tweets
