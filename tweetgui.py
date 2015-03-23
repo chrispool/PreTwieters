@@ -12,6 +12,7 @@ class TweetGui(QtGui.QWidget):
 	def __init__(self):
 		super(TweetGui, self).__init__()
 		self.initUI()
+		self.showMoreInfo = False #default setting
 
 	def initUI(self):
 		self.bg = QtGui.QFrame(self)
@@ -33,6 +34,7 @@ class TweetGui(QtGui.QWidget):
 
 		self.tweetshow.setToolTip('Klik om originele tweet te zien')
 		self.twietwietshow.setToolTip('Klik om originele tweet te zien')
+
 		self.tweetshow.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
 		self.twietwietshow.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
 		self.bestTweetList.setStyleSheet('background-color: rgba(255, 255, 255, 10); text-align: left')
@@ -42,8 +44,9 @@ class TweetGui(QtGui.QWidget):
 		self.tweetSaveButton.setFixedWidth(150)
 		self.tweetCopyButton.setFixedWidth(150)
 		
-		self.tweetshow.clicked.connect(self.popupBox)
-		self.twietwietshow.clicked.connect(self.popupBox)
+
+		self.tweetshow.clicked.connect(self.showMoreInfo)
+		self.twietwietshow.clicked.connect(self.showMoreInfo)
 		self.tweetButton.clicked.connect(self.buttonPushed)
 		self.twietwietButton.clicked.connect(self.buttonPushed)
 		self.tweetCopyButton.clicked.connect(self.copyTweet)
@@ -71,16 +74,27 @@ class TweetGui(QtGui.QWidget):
 			self.getTweets()
 			self.tweetshow.setText(self.tweets[0])
 			self.twietwietshow.setText(self.tweets[1][0])
+		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', str(self.sender()), QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok) # werkt nog niet
+
+	def showMoreInfo(self):
+		if self.showMoreInfo == True:
+			self.showMoreInfo = False
+			self.tweetshow.setText(self.tweets[0][1])
+			self.twietwietshow.setText(self.tweets[1][0][0])
+		else:
+			self.showMoreInfo = True
+			self.tweetshow.setText(self.tweets[0][0])
+			self.twietwietshow.setText(self.tweets[1][0][1])
 
 	def buttonPushed(self):
 		source = self.sender() 
 		if source.text() == "Nieuwe tweet":
 			self.tweets = self.getTweets()
-			self.tweetshow.setText(self.tweets[0])
-			self.twietwietshow.setText(self.tweets[1][0])
+			self.tweetshow.setText(self.tweets[0][0])
+			self.twietwietshow.setText(self.tweets[1][0][0])
 		else:
 			if len(self.tweets[1]) > 1:
-				self.twietwietshow.setText(self.tweets[1][1])
+				self.twietwietshow.setText(self.tweets[1][1][0])
 				self.tweets[1].pop(0)
 			else:
 				self.popupBox("Helaas, Twietwiets zijn op!")
