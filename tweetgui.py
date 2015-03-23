@@ -90,22 +90,17 @@ class TweetGui(QtGui.QWidget):
 
 	def popupBox(self, message):
 		source = self.sender()
-		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', message, QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
-		if self.messageBox == QtGui.QMessageBox.Ok:
-			self.getTweets()
-			self.tweetshow.setText(self.tweets[0])
-			self.twietwietshow.setText(self.tweets[1][0])
-		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', str(self.sender()), QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok) # werkt nog niet
-
+		self.messageBox = QtGui.QMessageBox.information(self, 'Bericht', message, QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+		
 	def showMoreInfo(self):
 		if self.showMoreInfo == True:
 			self.showMoreInfo = False
 			self.tweetshow.setText(self.tweets[0][1])
-			self.twietwietshow.setText(self.tweets[1][0][0])
+			self.twietwietshow.setText(self.tweets[1][0][1])
 		else:
 			self.showMoreInfo = True
 			self.tweetshow.setText(self.tweets[0][0])
-			self.twietwietshow.setText(self.tweets[1][0][1])
+			self.twietwietshow.setText(self.tweets[1][0][0])
 
 	def buttonPushed(self):
 		source = self.sender() 
