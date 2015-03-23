@@ -27,7 +27,7 @@ class FavTweets(QtGui.QDialog):
 			self.table.setItem(i, 1, QtGui.QTableWidgetItem(row[1]))
 
 class TweetGui(QtGui.QWidget):
-	""" Grafische interface van de Twietwieter """
+	""" Docstring """
 
 	def __init__(self):
 		super(TweetGui, self).__init__()
@@ -88,13 +88,16 @@ class TweetGui(QtGui.QWidget):
 		self.setLayout(self.grid)
 		self.show()
 
-	def popupBox(self, title, message):
-		""" Messagebox met bericht dat Twietwiets op zijn """
+	def popupBox(self, message):
 		source = self.sender()
-		self.messageBox = QtGui.QMessageBox.information(self, title, message, QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', message, QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+		if self.messageBox == QtGui.QMessageBox.Ok:
+			self.getTweets()
+			self.tweetshow.setText(self.tweets[0])
+			self.twietwietshow.setText(self.tweets[1][0])
+		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', str(self.sender()), QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok) # werkt nog niet
 
 	def showMoreInfo(self):
-		""" Functie die verschil toont tussen 'kale' tweet en tweet met opmaak """
 		if self.showMoreInfo == True:
 			self.showMoreInfo = False
 			self.tweetshow.setText(self.tweets[0][1])
@@ -105,7 +108,6 @@ class TweetGui(QtGui.QWidget):
 			self.twietwietshow.setText(self.tweets[1][0][1])
 
 	def buttonPushed(self):
-		""" Functie die de knoppen voor nieuwe tweet en twietwiet koppelt aan de getTweets functie """
 		source = self.sender() 
 		if source.text() == "Nieuwe tweet":
 			self.tweets = self.getTweets()
@@ -116,17 +118,16 @@ class TweetGui(QtGui.QWidget):
 				self.twietwietshow.setText(self.tweets[1][1][0])
 				self.tweets[1].pop(0)
 			else:
-				self.popupBox("Tweets op!", "Helaas, Twietwiets zijn op! \nKlik op Nieuwe tweet om verder te gaan.")
+				self.popupBox("Helaas, Twietwiets zijn op!")
 
 	def getTweets(self):
-		""" Genereert een lijst met tweets """
 		tweets = twieTwiet.getTwieTweets() #returns a list of tweets
 		firstTweet = tweets.pop() #moet eigenlijk random gebeuren
 		result = [firstTweet, tweets]
 		return result
 
 	def center(self):
-		""" Centreert het venster """
+		""" Centers the window of the application on the screen."""
 		qr = self.frameGeometry()
 		cp = QtGui.QDesktopWidget().availableGeometry().center()
 		qr.moveCenter(cp)
