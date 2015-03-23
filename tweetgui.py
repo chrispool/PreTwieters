@@ -42,8 +42,8 @@ class TweetGui(QtGui.QWidget):
 		self.tweetSaveButton.setFixedWidth(150)
 		self.tweetCopyButton.setFixedWidth(150)
 		
-		self.tweetshow.clicked.connect(self.originalTweet)
-		self.twietwietshow.clicked.connect(self.originalTweet)
+		self.tweetshow.clicked.connect(self.popupBox)
+		self.twietwietshow.clicked.connect(self.popupBox)
 		self.tweetButton.clicked.connect(self.buttonPushed)
 		self.twietwietButton.clicked.connect(self.buttonPushed)
 		self.tweetCopyButton.clicked.connect(self.copyTweet)
@@ -64,9 +64,13 @@ class TweetGui(QtGui.QWidget):
 		self.setLayout(self.grid)
 		self.show()
 
-	def originalTweet(self):
+	def popupBox(self, message):
 		source = self.sender()
-		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', "TEKST VAN TWEET", QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok) # werkt nog niet
+		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', message, QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+		if self.messageBox == QtGui.QMessageBox.Ok:
+			self.getTweets()
+			self.tweetshow.setText(self.tweets[0])
+			self.twietwietshow.setText(self.tweets[1][0])
 
 	def buttonPushed(self):
 		source = self.sender() 
@@ -79,7 +83,7 @@ class TweetGui(QtGui.QWidget):
 				self.twietwietshow.setText(self.tweets[1][1])
 				self.tweets[1].pop(0)
 			else:
-				self.twietwietshow.setText("Helaas, Twietwiets zijn op!")
+				self.popupBox("Helaas, Twietwiets zijn op!")
 
 	def getTweets(self):
 		tweets = twieTwiet.getTwieTweets() #returns a list of tweets
