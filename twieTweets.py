@@ -45,7 +45,7 @@ class twieTweets():
 			lastWord = self.getLastWord(elements[1])
 			if lastWord in self.pronDict:
 				key = tuple(self.pronDict[lastWord])
-				self.twieTweets[key].append(elements[1].strip())
+				self.twieTweets[key].append([elements[1].strip(), elements[0]])
 	
 	def getLastWord(self, tweet):
 		'''get last word of tweet (functie nog uitbreiden om hashtags etc te verwijderen via andere functie)'''
@@ -77,6 +77,8 @@ class twieTweets():
 				break
 		return lastWord
 
+
+
 	def inputTweet(self):
 		randomKey = random.choice(list(self.twieTweets.keys()))
 
@@ -92,8 +94,8 @@ class twieTweets():
 			result.clear()
 			randomList = self.twieTweets[random.choice(list(self.twieTweets.keys()))]			
 			for tweet in randomList:
-				if self.getLastWord(tweet) in self.pronDict:
-					result[self.getLastWord(tweet)] = tweet
+				if self.getLastWord(tweet[0]) in self.pronDict:
+					result[self.getLastWord(tweet[0])] = tweet
 		return list(result.values())
 		
 

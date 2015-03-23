@@ -66,17 +66,17 @@ class TweetGui(QtGui.QWidget):
 
 	def originalTweet(self):
 		source = self.sender()
-		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', "TEKST VAN TWEET", QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok) # werkt nog niet
+		self.messageBox = QtGui.QMessageBox.information(self, 'Originele tweet', str(self.sender()), QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok) # werkt nog niet
 
 	def buttonPushed(self):
 		source = self.sender() 
 		if source.text() == "Nieuwe tweet":
 			self.tweets = self.getTweets()
-			self.tweetshow.setText(self.tweets[0])
-			self.twietwietshow.setText(self.tweets[1][0])
+			self.tweetshow.setText(self.tweets[0][0])
+			self.twietwietshow.setText(self.tweets[1][0][0])
 		else:
 			if len(self.tweets[1]) > 1:
-				self.twietwietshow.setText(self.tweets[1][1])
+				self.twietwietshow.setText(self.tweets[1][1][0])
 				self.tweets[1].pop(0)
 			else:
 				self.twietwietshow.setText("Helaas, Twietwiets zijn op!")
