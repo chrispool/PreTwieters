@@ -1,10 +1,30 @@
 #!usr/bin/python3.4
 
 import sys
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui, QtCore, uic
 import twieTweets
 import random
 import time
+
+
+class FavTweets(QtGui.QDialog):
+	'''Popup met tweets waarin het keyword voorkomt'''
+	def __init__(self, parent=None):
+		QtGui.QDialog.__init__(self)
+		self.setGeometry(400, 250, 300, 500)
+		self.setWindowTitle('Fav tweets')
+		uic.loadUi('showFav.ui', self) 
+		self.loadTweets()
+	
+	def loadTweets(self):
+		entries = []
+		for tweet in open('favTweets.txt'):
+			entries.append(tweet.strip().split("\t"))
+		self.table.setRowCount(len(entries))
+		self.table.setColumnCount(2)
+		for i, row in enumerate(entries):  	
+			self.table.setItem(i, 0, QtGui.QTableWidgetItem(row[0]))
+			self.table.setItem(i, 1, QtGui.QTableWidgetItem(row[1]))
 
 class TweetGui(QtGui.QWidget):
 	""" Docstring """
@@ -13,6 +33,7 @@ class TweetGui(QtGui.QWidget):
 		super(TweetGui, self).__init__()
 		self.initUI()
 		self.showMoreInfo = False #default setting
+		
 
 	def initUI(self):
 		self.bg = QtGui.QFrame(self)
@@ -28,7 +49,7 @@ class TweetGui(QtGui.QWidget):
 		self.tweetButton = QtGui.QPushButton('Nieuwe tweet', self)
 		self.twietwietButton = QtGui.QPushButton('Nieuwe twietwiet', self)
 		self.tweetSaveButton = QtGui.QPushButton('Bewaar', self)
-		self.tweetCopyButton = QtGui.QPushButton('Kopieer', self)
+		self.tweetCopyButton = QtGui.QPushButton('Favorieten bekijken', self)
 		self.bestTweetList=QtGui.QListWidget()
 		self.clipBoard = QtGui.QApplication.clipboard()
 
@@ -49,7 +70,7 @@ class TweetGui(QtGui.QWidget):
 		self.twietwietshow.clicked.connect(self.showMoreInfo)
 		self.tweetButton.clicked.connect(self.buttonPushed)
 		self.twietwietButton.clicked.connect(self.buttonPushed)
-		self.tweetCopyButton.clicked.connect(self.copyTweet)
+		self.tweetCopyButton.clicked.connect(self.showFavorites)
 		self.tweetSaveButton.clicked.connect(self.saveTweet)
 
 		self.grid.addWidget(self.tweetshow, 1, 0)
@@ -113,10 +134,8 @@ class TweetGui(QtGui.QWidget):
 		self.move(qr.topLeft())
 
 	def saveTweet(self):
-		filename = QtGui.QFileDialog.getSaveFileName(self, 'Save File')
-		f = open(filename, 'w')
-		for i in range(self.bestTweetList.count()):
-			f.write((''.join([str(self.bestTweetList.item(i).text()),'\n'])))
+		f = open('favTweets.txt', 'a')
+		f.write("{} \t {}\n".format(self.twietwietshow.text(), self.tweetshow.text()))
 		f.close()
 
 	def copyTweet(self):
@@ -126,6 +145,9 @@ class TweetGui(QtGui.QWidget):
 		self.grid.addWidget(self.bestTweetList, 6, 0)
 		self.clipBoard.setText(' '.join(self.bestTweet), mode=self.clipBoard.Clipboard)
 
+	def showFavorites(self):
+		self.dialog = FavTweets()
+		self.dialog.show()
 
 
 
@@ -142,3 +164,4 @@ if __name__ == '__main__':
 	t.show()
 	splash.finish(t)
 	app.exec_()
+	
