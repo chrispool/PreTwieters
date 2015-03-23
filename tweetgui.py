@@ -52,17 +52,17 @@ class TweetGui(QtGui.QWidget):
 		self.tweetCopyButton.clicked.connect(self.copyTweet)
 		self.tweetSaveButton.clicked.connect(self.saveTweet)
 
-		self.grid.addWidget(self.tweetshow, 1, 0)
-		self.grid.addWidget(self.twietwietshow, 2, 0)
+		self.grid.addWidget(self.tweetshow, 1, 0, 1, 3)
+		self.grid.addWidget(self.twietwietshow, 2, 0, 1, 3)
 		self.grid.addWidget(self.tweetButton, 1, 4)
 		self.grid.addWidget(self.twietwietButton, 2, 4)
-		self.grid.addWidget(self.tweetCopyButton, 5, 1)
-		self.grid.addWidget(self.tweetSaveButton, 5, 2)
+		self.grid.addWidget(self.tweetCopyButton, 3, 0, 1, 1)
+		self.grid.addWidget(self.tweetSaveButton, 3, 1, 1, 1)
 
 		self.setWindowIcon(QtGui.QIcon('icon.png'))
-		self.center()
 		self.setWindowTitle('TwieTwiet')
-		self.setGeometry(500, 200, 1000, 400)
+		self.setFixedSize(self.resolution.width()-(self.resolution.width()/4), 300)
+		self.center()
 
 		self.setLayout(self.grid)
 		self.show()
