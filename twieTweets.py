@@ -5,6 +5,7 @@ import random
 
 
 class twieTweets():
+	'''Backend for PreTwieTweets that groups al rhyming tweets and delivers a set of tweets to the GUI'''
 	def __init__(self):
 		self.tweetFile = 'tweets.txt' #file with all tweets in format username \tab\ tweet
 		self.pronFile = 'dpw.cd'# file with the pronunciation of dutch words
@@ -16,7 +17,6 @@ class twieTweets():
 		''' als klemtoon in laatste lettergreep voorkomt dan is dat de regel waar we naar moeten zoeken
 		als er geen klemtoon in de laatste lettergreep voorkomt en wel een : voorkomt en geen klemtoon daarna is 
 		dat wat we moeten gebruiken'''
-		#[hArd][lo:][p@]	
 		lastPart = []	
 		for n, syl in enumerate(reversed(re.findall(r'\[([^]]*)\]',syllables))):
 				for i,c in enumerate(reversed(syl)):
@@ -49,9 +49,8 @@ class twieTweets():
 				self.twieTweets[key].append([self.formatTweet(elements[1].strip()),elements[1].strip(), elements[0]])
 	
 	def getLastWord(self, tweet):
-		'''get last word of tweet (functie nog uitbreiden om hashtags etc te verwijderen via andere functie)'''
+		'''get last good word of tweet, no hashtags or urls'''
 		lastWord = ''.join(tweet).split()[-1]
-
 		i = -1
 		while True:
 			if len(lastWord) < 2:
@@ -79,6 +78,7 @@ class twieTweets():
 		return lastWord
 
 	def formatTweet(self, tweetString):
+		'''Format tweet without hashtags or URLS'''
 		result = []
 		words = list(reversed(tweetString.strip().split()))
 		for p, word in enumerate(words):
@@ -86,18 +86,9 @@ class twieTweets():
 			if word.isalpha() and len(word) > 2:
 				return ' '.join(reversed(words[p:]))
 
-		
-
-	def inputTweet(self):
-		randomKey = random.choice(list(self.twieTweets.keys()))
-
-		#testen hoeveel tweets eindigen op hetzelfde woord 
-		while not len(self.twieTweets[randomKey]) > 2 :
-			randomKey = random.choice(list(self.twieTweets.keys()))
-		return random.choice(self.twieTweets[randomKey])
 	
 	def getTwieTweets(self):
-		# get random list of tweets that rhyme
+		# get random list of tweets that rhyme with length of more than 2
 		result = defaultdict(list)
 		while len(list(result.values())) < 2:
 			result.clear()
@@ -109,6 +100,7 @@ class twieTweets():
 		
 
 	def twieTweetTest(self):
+		'''Function to test Class if run as single script'''
 		for tweet in self.getTwieTweets():
 			print(self.formatTweet(tweet[0]))
 			
