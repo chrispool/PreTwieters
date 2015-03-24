@@ -33,7 +33,7 @@ class TweetGui(QtGui.QWidget):
 	def __init__(self):
 		super(TweetGui, self).__init__()
 		self.initUI()
-		self.showMoreInfo = False #default setting
+		self.showMoreInfo = True #default setting
 		
 
 	def initUI(self):
@@ -133,7 +133,7 @@ class TweetGui(QtGui.QWidget):
 	def saveTweet(self):
 		""" Biedt mogelijkheid om favoriete tweet op te slaan in text bestand """
 		f = open('favTweets.txt', 'a')
-		f.write("{} \t {}\n".format(self.twietwietshow.text(), self.tweetshow.text()))
+		f.write("{} \t {}\n".format(self.tweetshow.text(), self.twietwietshow.text()))
 		f.close()
 
 	def showFavorites(self):
