@@ -80,9 +80,9 @@ class twieTweets():
 
 	def formatTweet(self, tweetString):
 		result = []
-		tweet = re.sub(r'[^\w\s]','',tweetString)
-		words = list(reversed(tweet.strip().split()))
+		words = list(reversed(tweetString.strip().split()))
 		for p, word in enumerate(words):
+			word = word.strip('!,.?')
 			if word.isalpha() and len(word) > 2:
 				return ' '.join(reversed(words[p:]))
 
