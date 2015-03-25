@@ -82,7 +82,7 @@ class twieTweets():
 		result = []
 		words = list(reversed(tweetString.strip().split()))
 		for p, word in enumerate(words):
-			word = word.strip('!,.?')
+			word = word.strip('!,.?)(:')
 			if word.isalpha() and len(word) > 2:
 				return ' '.join(reversed(words[p:]))
 
